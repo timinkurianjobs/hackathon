@@ -1,0 +1,31 @@
+<div class="logo">
+  <a  class="simple-text logo-mini">
+    
+  </a>
+  <a  class="simple-text logo-normal">
+    DashBoard
+  </a>
+</div>
+<div class="sidebar-wrapper">
+  <ul class="nav">
+    <li
+    >
+      <a >
+       
+        <p style="font-size: medium;">Patient Details</p>
+      </a>
+      
+      <table class="table table-striped tablefont">
+        <thead>
+          <th> Details </th>
+        </thead>
+        <li *ngFor="let d of logic.patients"  (click)="displaydetails(d.name)">
+        <tbody (click)="displaydetails()">
+          <tr>
+          <td>{{d.name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+  </ul>
+</div>
