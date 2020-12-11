@@ -19,7 +19,7 @@
         <thead>
           <th> Details </th>
         </thead>
-        <li *ngFor="let d of logic.patients"  (click)="displaydetails(d.name)">
+        <li *ngFor="let d of logic.patients"   [ngClass] = "{'highlight':d.name == this.logic.name}" (click)="displaydetails(d.name)">
         <tbody (click)="displaydetails()">
           <tr>
           <td>{{d.name}}</td>
