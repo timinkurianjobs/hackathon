@@ -210,11 +210,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
 
   displayfile() {
-
+    this.logic.naveena = [];
     let fromData = new FormData();
     fromData.append('file', this.selectedfile)
     console.log(this.selectedfile)
-    return this.http.post<Details>("http://pne-backend-svc.default:5011/sendimage", fromData).subscribe((result) => {
+    return this.http.post<Details>(" http://127.0.0.1:5011//sendimage", fromData).subscribe((result) => {
 
       this.logic.naveena.push({
         "name": result.name,
@@ -227,87 +227,43 @@ export class NavbarComponent implements OnInit, OnDestroy {
         "modality": result.modality,
         "image": result.image
       })
-
+      console.log("naveena" + this.logic.naveena)
     });
 
   }
-
-
   onselectedfile(event: any) {
     this.selectedfile = event.target.files[0];
-
-
   }
-
-
-
-
-
   selectedsearch: any;
-
-
-
   displaysearch() {
+
+    this.logic.naveena = [];
     this.selectedsearch = <String>((<HTMLInputElement>document.getElementById("mySearch")).value)
     let studyParams = new HttpParams();
     studyParams = studyParams.append("name", this.selectedsearch)
-    // let header = new HttpHeaders();
-    // header.append('Content-type', 'application/json');
-    // console.log("***Get Study", this.selectedsearch);
-    // return this.http.get("http://pne-backend-svc.default:5011/search", { headers: header, params: studyParams }).subscribe((response: any) => {
-
-    //   if (response && response.length > 0) {
-
-    //     response.forEach((element: { name: any; pathology: any; patientid: any; studydate: any; birthdate: any; age: any; sex: any; modality: any; image: any }) => {
-    //       this.logic.naveena.push({
-
-    //         "name": element.name,
-    //         "pathology": element.pathology,
-    //         "patientid": element.patientid,
-    //         "studydate": element.studydate,
-    //         "birthdate": element.birthdate,
-    //         "age": element.age,
-    //         "sex": element.sex,
-    //         "modality": element.modality,
-    //         "image": element.image
-
-    //       })
-    //     });
     const options = this.selectedsearch ?
       { params: new HttpParams().set('name', this.selectedsearch) } : {};
-
-
-
-
-
-    return this.http.get<Details>("http://pne-backend-svc.default:5011/search", options)
+    return this.http.get<Details>("http://127.0.0.1:5011/search", options)
       .subscribe((response) => {
         console.log("responce recieved", response)
-        
-
-         
-            this.logic.naveena.push({
-
-              "name": response.name,
-              "pathology": response.pathology,
-              "patientid": response.patientid,
-              "studydate": response.studydate,
-              "birthdate": response.birthdate,
-              "age": response.age,
-              "sex": response.sex,
-              "modality": response.modality,
-              "image": response.image
-
-            })
-          
-
-
-        
-
-
-
+        this.logic.naveena.push({
+          "name": response.name,
+          "pathology": response.pathology,
+          "patientid": response.patientid,
+          "studydate": response.studydate,
+          "birthdate": response.birthdate,
+          "age": response.age,
+          "sex": response.sex,
+          "modality": response.modality,
+          "image": response.image
+        })
+        console.log("naveena" + this.logic.naveena)
       }
       )
+      
+  }
+  onCancel(ev:any) { 
+    ev.target.value = '';
   }
 }
 

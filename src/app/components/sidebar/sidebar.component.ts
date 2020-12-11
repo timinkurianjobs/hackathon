@@ -1,21 +1,21 @@
 import { Component, OnInit } from "@angular/core";
-import{LogicService} from 'src/app/logic.service';
+import { LogicService, Details } from 'src/app/logic.service';
 import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 
 declare interface RouteInfo {
   path: string;
   title: string;
-  
- 
-  
+
+
+
 }
 export const ROUTES: RouteInfo[] = [
   {
     path: "/dashboard",
     title: "Dashboard"
-    
-    
-   
+
+
+
   }
 ];
 
@@ -27,12 +27,12 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor(    public logic:LogicService,
-    private http:HttpClient) {}
+  constructor(public logic: LogicService,
+    private http: HttpClient) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
-    this.patient();
+    // this.patient();
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {
@@ -40,59 +40,25 @@ export class SidebarComponent implements OnInit {
     }
     return true;
   }
-  searchname:any;
-  patient()
-  {
-   
- 
-      
-    
-    
-    
-      let studyParams = new HttpParams();
-      
-      let header = new HttpHeaders();
-      header.append('Content-type', 'application/json');
-      console.log("***Get Study", this.searchname);
-      return this.http.get("http://pne-backend-svc.default:5011/search", { headers: header, params: studyParams }).subscribe((response: any) => {
-    
-        if (response && response.length > 0) {
-    
-          response.forEach((element: { name: any; pathology:any; patientid:any; studydate:any; birthdate:any; age:any;sex:any;modality:any;image:any }) => {
-            this.logic.patients.push({
-    
-              "name": element.name,
-              "pathology": element.pathology,
-              "patientid": element.patientid,
-              "studydate": element.studydate,
-              "birthdate": element.birthdate,
-              "age": element.age,
-              "sex": element.sex,
-              "modality": element.modality,
-              "image":element.image
-    
-            })
-          });
-    
-    
-        }
-    
-      })
-  }
-  displaydetails(name){
-   this.logic.name=name;
-    let studyParams = new HttpParams();
-      
+  GetPatients() {
     let header = new HttpHeaders();
     header.append('Content-type', 'application/json');
-    console.log("***Get Study", name);
-    return this.http.get("http://pne-backend-svc.default:5011/search", { headers: header, params: studyParams }).subscribe((response: any) => {
-  
-      if (response && response.length > 0) {
-  
-        response.forEach((element: { name: any; pathology:any; patientid:any; studydate:any; birthdate:any; age:any;sex:any;modality:any;image:any }) => {
-          this.logic.naveena.push({
-  
+    let param = new HttpParams();
+    param = param.append("firstname", "hello");
+    return this.http.get("http://localhost:2000/getAllPatients", {
+      headers: header
+      , params: param
+    });
+  }
+  searchname: any;
+  patient() {
+
+
+    this.GetPatients().subscribe((res: any) => {
+      console.log("Response:-", res);
+      if (res && res.length > 0) {
+        res.forEach(element => {
+          this.logic.patients.push({
             "name": element.name,
             "pathology": element.pathology,
             "patientid": element.patientid,
@@ -101,16 +67,36 @@ export class SidebarComponent implements OnInit {
             "age": element.age,
             "sex": element.sex,
             "modality": element.modality,
-            "image":element.image
-  
+            "image": element.image
           })
         });
-  
-  
       }
-  
     })
+  }
+  displaydetails(name) {
+    this.logic.naveena = [];
 
+    let studyParams = new HttpParams();
+    studyParams = studyParams.append("name", name)
+    const options = name ?
+      { params: new HttpParams().set('name', name) } : {};
+    return this.http.get<Details>("http://127.0.0.1:5011/search", options)
+      .subscribe((response) => {
+        console.log("responce recieved", response)
+        this.logic.naveena.push({
+          "name": response.name,
+          "pathology": response.pathology,
+          "patientid": response.patientid,
+          "studydate": response.studydate,
+          "birthdate": response.birthdate,
+          "age": response.age,
+          "sex": response.sex,
+          "modality": response.modality,
+          "image": response.image
+        })
+        console.log("naveena" + this.logic.naveena)
+      }
+      )
   }
 }
 
