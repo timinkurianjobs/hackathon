@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit {
     header.append('Content-type', 'application/json');
     let param = new HttpParams();
     param = param.append("firstname", "hello");
-    return this.http.get("http://localhost:2000/getAllPatients", {
+    return this.http.get("http://pne-backend-svc.default:5011/search", {
       headers: header
       , params: param
     });

@@ -214,7 +214,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     let fromData = new FormData();
     fromData.append('file', this.selectedfile)
     console.log(this.selectedfile)
-    return this.http.post<Details>(" http://127.0.0.1:5011//sendimage", fromData).subscribe((result) => {
+    return this.http.post<Details>("http://pne-backend-svc.default:5011/sendimage", fromData).subscribe((result) => {
 
       this.logic.naveena.push({
         "name": result.name,
@@ -243,7 +243,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     studyParams = studyParams.append("name", this.selectedsearch)
     const options = this.selectedsearch ?
       { params: new HttpParams().set('name', this.selectedsearch) } : {};
-    return this.http.get<Details>("http://127.0.0.1:5011/search", options)
+    return this.http.get<Details>("http://pne-backend-svc.default:5011/search", options)
       .subscribe((response) => {
         console.log("responce recieved", response)
         this.logic.naveena.push({
@@ -262,9 +262,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       )
       
   }
-  onCancel(ev:any) { 
-    ev.target.value = '';
-  }
+ 
 }
 
 
