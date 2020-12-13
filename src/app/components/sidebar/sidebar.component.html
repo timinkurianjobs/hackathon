@@ -30,28 +30,19 @@
   
   </a>
   <a class="simple-text logo-normal">
-  DashBoard
+    Patient List
   </a>
-  <p>{{value}}</p>
   </div>
   <div class="sidebar-wrapper">
     
   <ul class="nav">
-  <li
-  >
-  <a >
-  
-  <p style="font-size: medium;">Patient Details</p>
-  </a>
+  <li>
   
   <table class="table table-striped tablefont">
-  <thead>
-  <th> Patient List </th>
-  </thead>
-  <li *ngFor="let d of names" (click)="displaydetails(d)">
-  <tbody (click)="displaySelectedPatientDetail()">
+  <li *ngFor="let d of logic.patient" (click)="displaydetails(d.name)">
+  <tbody >
   <tr>
-  <td>{{d}}</td>
+  <td>{{d.name}}</td>
   </tr>
   </tbody>
   </table>

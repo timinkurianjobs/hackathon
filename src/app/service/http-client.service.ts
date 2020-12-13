@@ -16,8 +16,9 @@ export class patientInfo{
   ) {}
 } 
 export class patientList{
+  public names:any[];
   constructor( 
-    public names:any,            
+               
   ) {}
 } 
 
@@ -31,10 +32,10 @@ export class HttpClientService {
   {
     console.log("backend call");
     
-    return this.httpClient.get<patientInfo>("http://localhost:5000/search");
+    return this.httpClient.get<patientInfo>("http://10.197.0.55:30081/poll");
 
   }
   getPatients(){
-    return this.httpClient.get<patientList>("http://localhost:5000/patients");
+    return this.httpClient.get<patientList>("http://10.197.0.55:30081/patients");
   }
 }
