@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { LogicService, Details } from 'src/app/logic.service';
+import {Router} from "@angular/router";
+import { HttpClientService,patientList } from "src/app/service/http-client.service";
 import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
+import { LogicService, Details } from 'src/app/logic.service';
 
 declare interface RouteInfo {
   path: string;
@@ -25,14 +27,15 @@ export const ROUTES: RouteInfo[] = [
   styleUrls: ["./sidebar.component.css"]
 })
 export class SidebarComponent implements OnInit {
-  menuItems: any[];
-
-  constructor(public logic: LogicService,
-    private http: HttpClient) { }
-
+  names:any=[];
+  patients:any=[];
+  value="timin";
+  constructor(private httpClientService: HttpClientService, private logic: LogicService) { }
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    //this.menuItems = ROUTES.filter(menuItem => menuItem);
     // this.patient();
+    this.listusers();
+
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {
@@ -40,64 +43,31 @@ export class SidebarComponent implements OnInit {
     }
     return true;
   }
-  GetPatients() {
-    let header = new HttpHeaders();
-    header.append('Content-type', 'application/json');
-    let param = new HttpParams();
-    param = param.append("firstname", "hello");
-    return this.http.get("http://pne-backend-svc.default:5011/search", {
-      headers: header
-      , params: param
-    });
+  listusers(){
+    this.httpClientService.getPatients().subscribe(  
+      response =>this.handleresponse(response),
+     );
   }
-  searchname: any;
-  patient() {
+  handleresponse(response){
+
+    console.log(response);
+
+    this.names=response.names;
+
+    response.names.forEach(element => {
+      this.logic.patients.push({
+      "name": element
+      })
+      });
+      console.log('patients', this.logic.patients);
+      this.patients=this.logic.patients;
+      console.log(this.patients);
 
 
-    this.GetPatients().subscribe((res: any) => {
-      console.log("Response:-", res);
-      if (res && res.length > 0) {
-        res.forEach(element => {
-          this.logic.patients.push({
-            "name": element.name,
-            "pathology": element.pathology,
-            "patientid": element.patientid,
-            "studydate": element.studydate,
-            "birthdate": element.birthdate,
-            "age": element.age,
-            "sex": element.sex,
-            "modality": element.modality,
-            "image": element.image
-          })
-        });
-      }
-    })
-  }
-  displaydetails(name) {
-    this.logic.naveena = [];
 
-    let studyParams = new HttpParams();
-    studyParams = studyParams.append("name", name)
-    const options = name ?
-      { params: new HttpParams().set('name', name) } : {};
-    return this.http.get<Details>("http://127.0.0.1:5011/search", options)
-      .subscribe((response) => {
-        console.log("responce recieved", response)
-        this.logic.naveena.push({
-          "name": response.name,
-          "pathology": response.pathology,
-          "patientid": response.patientid,
-          "studydate": response.studydate,
-          "birthdate": response.birthdate,
-          "age": response.age,
-          "sex": response.sex,
-          "modality": response.modality,
-          "image": response.image
-        })
-        console.log("naveena" + this.logic.naveena)
-      }
-      )
   }
+
+
 }
 
 

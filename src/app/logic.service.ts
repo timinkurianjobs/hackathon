@@ -20,7 +20,7 @@ export class Details{
 })
 export class LogicService {
   name:any;
-  patients:any;
+  patients:any=[];
   naveena:any=[];
   constructor() { }
   

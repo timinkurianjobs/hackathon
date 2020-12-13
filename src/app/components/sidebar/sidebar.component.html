@@ -1,31 +1,62 @@
-<div class="logo">
+<!-- <div class="logo">
   <a  class="simple-text logo-mini">
     
   </a>
   <a  class="simple-text logo-normal">
-    DashBoard
+    Patients
   </a>
 </div>
 <div class="sidebar-wrapper">
   <ul class="nav">
-    <li
-    >
-      <a >
-       
-        <p style="font-size: medium;">Patient Details</p>
-      </a>
-      
-      <table class="table table-striped tablefont">
-        <thead>
-          <th> Details </th>
-        </thead>
-        <li *ngFor="let d of logic.patients"   [ngClass] = "{'highlight':d.name == this.logic.name}" (click)="displaydetails(d.name)">
-        <tbody (click)="displaydetails()">
-          <tr>
-          <td>{{d.name}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </li>
+    <table>
+    <li *ngFor="let d of logic.patients"  (click)="displaydetails(d)">
+      <tbody (click)="displaySelectedPatientDetail()">
+      <tr>
+      <td>ABS</td>
+      </tr>
+      </tbody>
+      </li>
+    </table>
   </ul>
-</div>
+</div> -->
+
+
+
+
+
+
+<div class="logo">
+  <a class="simple-text logo-mini">
+  
+  </a>
+  <a class="simple-text logo-normal">
+  DashBoard
+  </a>
+  <p>{{value}}</p>
+  </div>
+  <div class="sidebar-wrapper">
+    
+  <ul class="nav">
+  <li
+  >
+  <a >
+  
+  <p style="font-size: medium;">Patient Details</p>
+  </a>
+  
+  <table class="table table-striped tablefont">
+  <thead>
+  <th> Patient List </th>
+  </thead>
+  <li *ngFor="let d of names" (click)="displaydetails(d)">
+  <tbody (click)="displaySelectedPatientDetail()">
+  <tr>
+  <td>{{d}}</td>
+  </tr>
+  </tbody>
+  </table>
+  </li>
+  </ul>
+  </div>
+ 
+  <router-outlet></router-outlet>
