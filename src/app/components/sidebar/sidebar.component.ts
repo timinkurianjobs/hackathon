@@ -59,6 +59,7 @@ export class SidebarComponent implements OnInit {
   displaydetails(name) {
     this.logic.naveena = [];
     console.log(name)
+    this.logic.patientname=name;
     let studyParams = new HttpParams();
     studyParams = studyParams.append("name", name)
     const options = name ?
